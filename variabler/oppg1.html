@@ -6,6 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-    
+   <p>Hei <span id="user"></span></p> 
+
+   <script>
+    /* Vi har hentet brukerinformasjon, og lagret navnet til brukeren i en variabel kalt user_name*/
+    const user_name = "Martine"
+
+    //Så fyller vi inn brukernavnet i HTMLen som viser teksten "Hei Brukernavn"
+    document.getElementById("user").innerHTML = user_name
+   </script>
 </body>
 </html>
