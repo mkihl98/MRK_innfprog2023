@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="average"></p>
+
+    <script>
+        //deklarere variabler med aldre
+        const dad = 37
+        console.log(dad)
+
+        const mom = 32
+        console.log(mom)
+
+        const daughter = 7
+        console.log(daughter)
+
+        const son = 2
+        console.log(son)
+        
+        //total alder: legg sammen alle aldre
+        const totalAge = dad + mom + daughter + son
+        console.log(totalAge)
+
+        //gjennomsnitt: total alder delt på fire
+        const averageAge = totalAge / 4
+
+        //skriv ut til #average
+        document.getElementById("average").innerHTML = averageAge + " er familiens gjennomsnittsalder"
+    </script>
+</body>
+</html>
