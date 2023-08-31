@@ -8,21 +8,26 @@
 <body>
     <p id="melding"></p>
 
-    <script
+    <script>
     //Vi har hentet brukerinformasjon, og lagret navnet til brukeren i en variabel kalt user_name
-    const user_name = "Martine
+    const user_name = "Martine"
+    console.log(user_name)
 
     //Vi har hentet fødselsåret til brukeren og lagret det i variabelen user_birthyear
-    constt user_birthyear = 1998
+    const user_birthyear = 1998
+    console.log(user_birthyear)
 
     //Vi regner ut alder ved å ta året vi er i minus fødselsår, og lagrer svaret i en ny varaibel kalt age
-    const age = 2023 - user=user_birthyear
+    const age = 2023 - user_birthyear
+    console.log(age)
 
     //Så lager vi en tekst for utskrift ved hjelp av konkatinering
-    const utskrift = "Hei " user_name + " (" + age + "år)"
+    const utskrift = "Hei " + user_name + " " + age + " år"
+    console.log(utskrift)
 
     //... og skriver den ut til elementet med id melding
     document.getElementById("melding").innerHTML = utskrift
+    
 
 </script>
 
