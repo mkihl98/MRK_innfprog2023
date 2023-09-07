@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrayer oppgave 2</title>
+</head>
+<body>
+    <p id="setning"></p>
+    <script>
+        const dyr = ["hund", "katt", "hest", "skilpadde", "ku", "geit", "sau", "elg", "hamster", "and"]
+        const animals = ["dog", "cat", "horse", "turtle", "cow", "goat", "sheep", "moose", "hamster", "duck"]
+
+        const text = `${dyr[4]} er et dyr. Det heter ${animals[4]} på engelsk. ${dyr[9]} er også et dyr, som heter ${animals[9]} på engelsk.`
+
+        document.getElementById("setning").innerHTML = text
+    </script>
+</body>
+</html>
