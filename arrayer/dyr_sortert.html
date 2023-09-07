@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgave 3 arrayer</title>
+</head>
+<body>
+    <p id="utskrift"></p>
+    <script>
+        const dyr = ["hund", "katt", "hest", "skilpadde", "ku", "geit", "sau", "elg", "hamster", "and"]
+        dyr.push("kylling", "bever")
+
+        dyr.sort()
+
+        const antallDyr = dyr.length
+
+        //Skrive setningen ved hjelp av indexene
+        const setningIndex = `Antall dyr: ${antallDyr}. ${dyr[0]}, ${dyr[1]}, ${dyr[2]}, ${dyr[3]}, ${dyr[4]}, ${dyr[5]}, ${dyr[6]}, ${dyr[7]}, ${dyr[8]}, ${dyr[9]}, ${dyr[10]}, ${dyr[11]},`
+        console.log(setningIndex)
+
+        //Skrive setningen ved hjelp av .toString()
+        const setningToString = `Antall dyr: ${antallDyr}. ${dyr.toString()}`
+        console.log(setningToString)
+        //Skriver ut kun setningToString til HTML:
+        document.getElementById("utskrift").innerHTML = setningToString
+
+        //Setning som skal skrives ut, bruke .join():
+        const setningJoin = `Antall dyr: ${antallDyr}. ${dyr.join(", ")}`
+        console.log(setningJoin)
+
+        //Setning som skal skrives ut, bruke .map():
+        const setningMap = `Antall dyr: ${antallDyr}. ${dyr.map((d, index) => `${d}`)}`
+        console.log(setningMap)
+    </script>
+</body>
+</html>
