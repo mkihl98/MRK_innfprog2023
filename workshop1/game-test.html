@@ -77,7 +77,7 @@
         //PREPARE GAME CONFIG AND VARIABLES
         //TODO: config
         const gameConfig = {
-            player: null,
+            player: "Martine",
             energy: 5,
             points: 10,
             duration: 138
@@ -89,29 +89,29 @@
             arrays: 2,
             loops: 4,
             functions: 7
-        } 
-
- 
-        //(BONUS) TODO: function for all prints
-        function updateStaticUI() {
-            //TODO: print playerinfo to HTML
-            if(!gameConfig.player) {
-            document.getElementById("playerName").innerHTML = "Waiting for player ..."
-            } else {
-            document.getElementById("playerName").innerHTML = gameConfig.player
-            }
-            document.getElementById("energy").innerHTML = gameConfig.energy
-            document.getElementById("points").innerHTML = gameConfig.points
-            document.getElementById("duration").innerHTML = gameConfig.duration
-        
-            //TODO: print notebook info to HTML
-            document.getElementById("variables").innerHTML = notebook.variables
-            document.getElementById("arrays").innerHTML = notebook.arrays
-            document.getElementById("loops").innerHTML = notebook.loops
-            document.getElementById("functions").innerHTML = notebook.functions
         }
+        
 
-        updateStaticUI()
+        //TODO: print playerinfo to HTML
+        if(gameConfig.player === "Martine") {
+            document.getElementById("playerName").innerHTML = gameConfig.player
+        } else {
+            document.getElementById("playerName").innerHTML = "Waiting for player ..."
+        }
+        document.getElementById("energy").innerHTML = gameConfig.energy
+        document.getElementById("points").innerHTML = gameConfig.points
+        document.getElementById("duration").innerHTML = gameConfig.duration
+        
+        //TODO: print notebook info to HTML
+        document.getElementById("variables").innerHTML = notebook.variables
+        document.getElementById("arrays").innerHTML = notebook.arrays
+        document.getElementById("loops").innerHTML = notebook.loops
+        document.getElementById("functions").innerHTML = notebook.functions
+
+        //(BONUS) TODO: function for all prints
+        function printOut() {
+            document.getElementById().innerHTML = ""
+        }
         
     </script>
 </body>
