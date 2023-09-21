@@ -40,22 +40,22 @@
                     <tr>
                         <td><img src="icons/variable.svg" alt="" /></td>
                         <td>Variabler</td>
-                        <td>0</td>
+                        <td id="variables">0</td>
                     </tr>
                     <tr>
                         <td><img src="icons/array.svg" alt="" /></td>
                         <td>Arrayer</td>
-                        <td>1</span></td>
+                        <td id="arrays">1</span></td>
                     </tr>
                     <tr>
                         <td><img src="icons/loop.svg" alt="" /></td>
                         <td>Løkker</td>
-                        <td>2</td>
+                        <td id="loops">2</td>
                     </tr>
                     <tr>
                         <td><img src="icons/function.svg" alt="" /></td>
                         <td>Funksjoner</td>
-                        <td>1</td>
+                        <td id="functions">1</td>
                     </tr>
                 </table>
             </div>
@@ -76,15 +76,44 @@
     <script>
         //PREPARE GAME CONFIG AND VARIABLES
         //TODO: config
+        const gameConfig = {
+            player: "Martine",
+            energy: 5,
+            points: 10,
+            duration: 138
+        }
+
+        let noPlayer = "Waiting for player ..."
        
         //TODO: notebook
+        const notebook = {
+            variables: 3,
+            arrays: 2,
+            loops: 4,
+            functions: 7
+        }
         
 
         //TODO: print playerinfo to HTML
+        if(gameConfig.player === "Martine") {
+            document.getElementById("playerName").innerHTML = gameConfig.player
+        } else {
+            document.getElementById("playerName").innerHTML = "Waiting for player ..."
+        }
+        document.getElementById("energy").innerHTML = gameConfig.energy
+        document.getElementById("points").innerHTML = gameConfig.points
+        document.getElementById("duration").innerHTML = gameConfig.duration
         
         //TODO: print notebook info to HTML
+        document.getElementById("variables").innerHTML = notebook.variables
+        document.getElementById("arrays").innerHTML = notebook.arrays
+        document.getElementById("loops").innerHTML = notebook.loops
+        document.getElementById("functions").innerHTML = notebook.functions
 
         //(BONUS) TODO: function for all prints
+        function printOut() {
+            document.getElementById().innerHTML = 
+        }
         
     </script>
 </body>
