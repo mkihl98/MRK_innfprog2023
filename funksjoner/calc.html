@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Øvingsoppgave 4 funksjoner</title>
+    <style>
+        .red { 
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <ul id="result">
+
+    </ul>
+    
+    <script>
+        function calculator(num1 = 0, num2 = 0) {
+            let addition = ""
+            addition = num1 + num2
+            let subtraction = ""
+            subtraction = num1 - num2
+            let division = ""
+            division = num1 / num2
+            let multiplication = ""
+            multiplication = num1 * num2
+
+            let print = ""
+
+            if(addition < 0 || subtraction < 0 || division < 0 || multiplication < 0) {
+            let print = `<li class="red">${num1} + ${num2} = ${addition}</li>
+            <li class="red">${num1} - ${num2} = ${subtraction}</li>
+            <li class="red">${num1} / ${num2} = ${division}</li>
+            <li class="red">${num1} * ${num2} = ${multiplication}</li>`
+            } else {
+                let print = `<li>${num1} + ${num2} = ${addition}</li>
+            <li>${num1} - ${num2} = ${subtraction}</li>
+            <li>${num1} / ${num2} = ${division}</li>
+            <li>${num1} * ${num2} = ${multiplication}</li>`
+
+            console.log(print)
+            }
+
+
+            document.getElementById("result").innerHTML = print
+        }
+
+        calculator(10, 15)
+    </script>
+</body>
+</html>
