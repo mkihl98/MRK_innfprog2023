@@ -12,12 +12,21 @@
 
     <script>
         //Deklarerer en funksjon
-        function userInfo(name, birthyear, email) {
-
+        function userInfo(name = "Ikke oppgitt", birthyear = "Ikke oppgitt", email = "Ikke oppgitt") {
+            document.getElementById("name").innerHTML = name
+            document.getElementById("mail").innerHTML = email
+            let age = ""
+            if(birthyear === "Ikke oppgitt") {
+                age = "Ikke oppgitt"
+            } else {
+                Number(birthyear)
+                age = 2023 - birthyear
+            }
+            document.getElementById("age").innerHTML = age
         }
 
         //Kjører funksjonen
-        userInfo()
+        userInfo("Martine", 1998, "martinki@hiof.no")
     </script>
 </body>
 </html>
