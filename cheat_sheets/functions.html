@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions Cheat Sheet</title>
+</head>
+<body>
+    <p id="test"></p>
+
+    <script>
+        //Deklarere en funksjon kalt testFunction()
+        function testFunction() {
+            console.log("testFunction kjører")
+
+            const testing = false
+
+            if(testing) {
+                document.getElementById("test").innerHTML = "Testing er OK"
+            } else {
+                document.getElementById("test").innerHTML = "Testing feilet"
+            }
+
+        }
+
+        //Kjører testFunction()
+        testFunction()
+    </script>
+</body>
+</html>
