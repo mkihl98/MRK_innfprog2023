@@ -17,36 +17,22 @@
     
     <script>
         function calculator(num1 = 0, num2 = 0) {
-            let addition = ""
-            addition = num1 + num2
-            let subtraction = ""
-            subtraction = num1 - num2
-            let division = ""
-            division = num1 / num2
-            let multiplication = ""
-            multiplication = num1 * num2
+            //Utregninger for +, -, *, /
+            const pluss = num1 + num2
+            const minus = num1 - num2
+            const dele = num1 / num2
+            const gange = num1 * num2
 
-            let print = ""
+            //Skrive ut regnestykkene til listen #result
 
-            if(addition < 0 || subtraction < 0 || division < 0 || multiplication < 0) {
-            let print = `<li class="red">${num1} + ${num2} = ${addition}</li>
-            <li class="red">${num1} - ${num2} = ${subtraction}</li>
-            <li class="red">${num1} / ${num2} = ${division}</li>
-            <li class="red">${num1} * ${num2} = ${multiplication}</li>`
-            } else {
-                let print = `<li>${num1} + ${num2} = ${addition}</li>
-            <li>${num1} - ${num2} = ${subtraction}</li>
-            <li>${num1} / ${num2} = ${division}</li>
-            <li>${num1} * ${num2} = ${multiplication}</li>`
-
-            console.log(print)
-            }
-
-
-            document.getElementById("result").innerHTML = print
+            document.getElementById("result").innerHTML = 
+            `<li ${pluss < 0 ? "class='red'" : null}>${num1} + ${num2} = ${pluss}</li>
+            <li ${minus < 0 ? "class='red'" : null}>${num1} - ${num2} = ${minus}</li>
+            <li ${dele < 0 ? "class='red'" : null}>${num1} / ${num2} = ${dele}</li>
+            <li${gange < 0 ? "class='red'" : null}>${num1} * ${num2} = ${gange}</li>`
         }
 
-        calculator(10, 15)
+        calculator(2, 3)
     </script>
 </body>
 </html>
