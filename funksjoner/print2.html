@@ -11,7 +11,16 @@
     <p id="age"></p>
     
     <script>
-        
+        //Deklarerer en funksjon med parametere
+        function userInfo(name, birthyear, email) {
+            document.getElementById("name").innerHTML = name
+            const age = 2023 - birthyear
+            document.getElementById("age").innerHTML = age
+            document.getElementById("mail").innerHTML = `<a href="mailto:${email}">${email}</a>`
+        }
+
+        //Kjører funksjonen
+        userInfo("Martine", 1998, "martinki@hiof.no")
     </script>
 </body>
 </html>
