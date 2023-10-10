@@ -26,8 +26,8 @@
         </section>
         <img src="icons/c3_logo.svg" alt="Code Concept Collector" />
         <nav>
-            <button id="notebookToggler"><img src="icons/notebook.svg" />Åpne kladdeboka <span class="shortcut">n</span></button>
-            <button id="infoToggler">Info / Hvordan spille <span class="shortcut">i</span></button>
+            <button id="notebookToggler" onClick="toggleVisibility(notebook)"><img src="icons/notebook.svg" />Åpne kladdeboka <span class="shortcut">n</span></button>
+            <button id="infoToggler" onClick="toggleVisibilityInfo(info)">Info / Hvordan spille <span class="shortcut">i</span></button>
         </nav>
     </header>
     <main>
@@ -112,6 +112,35 @@
         }
 
         updateStaticUI()
+
+        //funksjon for å skjule/vise notatblokk og informasjon:
+        document.getElementById("notebookToggler").addEventListener("click", () => {
+            const notebook = document.getElementById("notebook")
+            if(notebook.contains("active")) {
+                notebook.hidden
+            }
+        })
+        function toggleVisibility() {
+            const elementid = document.getElementById("notebook")
+            if(elementid.classList.contains("hidden")) {
+                elementid.classList.remove("hidden")
+                elementid.style.display = "block"
+            } else {
+                elementid.classList.add("hidden")
+                elementid.style.display = "none"
+            }
+        }
+
+        function toggleVisibilityInfo() {
+            const info = document.getElementById("info")
+            if(info.classList.contains("hidden")) {
+                info.classList.remove("hidden")
+                info.style.display = "block"
+            } else {
+                info.classList.add("hidden")
+                info.style.display = "none"
+            }
+        }
         
     </script>
 </body>
