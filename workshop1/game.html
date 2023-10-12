@@ -26,13 +26,13 @@
         </section>
         <img src="icons/c3_logo.svg" alt="Code Concept Collector" />
         <nav>
-            <button id="notebookToggler" onClick="toggleVisibility(notebook)"><img src="icons/notebook.svg" />Åpne kladdeboka <span class="shortcut">n</span></button>
-            <button id="infoToggler" onClick="toggleVisibilityInfo(info)">Info / Hvordan spille <span class="shortcut">i</span></button>
+            <button id="notebookToggler"><img src="icons/notebook.svg" />Åpne kladdeboka <span class="shortcut">n</span></button>
+            <button id="infoToggler">Info / Hvordan spille <span class="shortcut">i</span></button>
         </nav>
     </header>
     <main>
         
-        <section id="notebook">
+        <section id="notebook" class="hideable">
             <div id="notebook-page">
                 
                 <h2>Notater</h2>
@@ -60,7 +60,7 @@
                 </table>
             </div>
         </section>
-        <section id="info" class="hidden">
+        <section id="info" class="hidden hideable">
             <div id="info-page">
                 <h2>Info / Hvordan spille C<sup>3</sup></h2>
                 <p>Målet med spiller er at programmeringsstudenten Fortran <span class="illustration">(<img src="icons/fortran.svg" />)</span> skal samle programmeringskonseptene variabler <span class="illustration">(<img src="icons/variable.svg" />)</span>, arrayer <span class="illustration">(<img src="icons/array.svg" />)</span>, løkker <span class="illustration">(<img src="icons/loop.svg" />)</span> og funksjoner <span class="illustration">(<img src="icons/function.svg" />)</span> i kladdeboka <span class="illustration">(<img src="icons/notebook.svg" />)</span> si.</p>
@@ -111,37 +111,72 @@
             document.getElementById("functions").innerHTML = notebook.functions
         }
 
+        //Funksjon for å skrive ut oppdatering til ett element:
+        function updateSingleStaticUI(elementid, value) {
+            document.getElementById(elementid).innerHTML = value 
+        }
+
         updateStaticUI()
 
-        //funksjon for å skjule/vise notatblokk og informasjon:
-        document.getElementById("notebookToggler").addEventListener("click", () => {
-            const notebook = document.getElementById("notebook")
-            if(notebook.contains("active")) {
-                notebook.hidden
-            }
-        })
-        function toggleVisibility() {
-            const elementid = document.getElementById("notebook")
-            if(elementid.classList.contains("hidden")) {
-                elementid.classList.remove("hidden")
-                elementid.style.display = "block"
-            } else {
-                elementid.classList.add("hidden")
-                elementid.style.display = "none"
-            }
-        }
+        //Testkjøring av funksjon for å oppdatere ett element:
+        updateSingleStaticUI("playerName", "TESTNAVN")
 
-        function toggleVisibilityInfo() {
-            const info = document.getElementById("info")
-            if(info.classList.contains("hidden")) {
-                info.classList.remove("hidden")
-                info.style.display = "block"
-            } else {
-                info.classList.add("hidden")
-                info.style.display = "none"
+        //funksjon for å skjule/vise notatblokk og informasjon:
+
+        function toggleVisibility(elementid) {
+            //Finne alle elementer som kan påvirkes (.hideable)
+            const hideables = document.querySelectorAll(".hideable")
+            console.log(hideables)
+            /*hideables.map((hideable) => {
+                hideable.style.display = "none"
+            })*/
+            for(let index = 0; index < hideables.length; index++) {
+                hideables[index].style.display = "none"
+                if(hideables[index].id != elementid) {
+                    hideables[index].classList.add("hidden")
+                }
             }
+
+            const element = document.getElementById(elementid)
+
+            if(element.classList.contains("hidden")) {
+                element.style.display = "block"
+                element.classList.remove("hidden")
+            } else {
+                element.style.display = "none"
+                element.classList.add("hidden")
+            }
+
+            //Få tak i #notebook
+            /*const element = document.getElementById(elementid)
+            //Sjekke om klassen hidden finnes:
+            if(element.classList.contains("hidden") === true) {
+                element.classList.remove("hidden")
+                element.style.display = "block"
+            } else {
+                element.classList.add("hidden")
+                element.style.display = "none"
+            }*/
         }
         
+        //Endre synlighet på notatbok og info med tastatur:
+        document.addEventListener("keydown", function(event) {
+            if(event.key === "n") {
+                toggleVisibility("notebook")
+            }
+            if(event.key === "i") {
+                toggleVisibility("info")
+            }
+        })
+
+        //Lytte etter klikk på notebook- og info-kanppene:
+        document.getElementById("notebookToggler").addEventListener("click", function(event) {
+            toggleVisibility("notebook")
+        })
+        document.getElementById("infoToggler").addEventListener("click", function(event) {
+            toggleVisibility("info")
+        })
+
     </script>
 </body>
 </html>
