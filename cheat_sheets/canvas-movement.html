@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Cheat Sheet</title>
+    <style>
+        body{
+            width: 100vw;
+            height: 100vh;
+            background: #d3d2d2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas{
+            background: #fff;
+        }
+        p{
+            position: absolute;
+            top: 25px;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="drawingArea"></canvas>
+    <p>Du har samlet <span id="count">0</span> firkanter!</p>
+
+    <script>
+        //Hente canvas-elementet
+        const canvas = document.getElementById("drawingArea")
+        //Sette høyde og bredde på canvas
+        canvas.width = 800
+        canvas.height = 600
+        //Sette context på canvas (hvilken verktøykasse vi skal gjøre tilgjengelig)
+        const ctx = canvas.getContext("2d")
+
+        //Lager en teller
+        let counter = 0
+
+        //Innlastingskontroll
+        let heroImageLoaded = false
+        //Lager et bildeobjekt
+        const heroImage = new Image()
+        //Angi hvilken bildefil som skal tegnes i canvas
+        heroImage.src = "superhero.png"
+        //Sjekker at bildeobjekt er lastet i nettleser
+        heroImage.onload = () => {
+            heroImageLoaded = true
+            //ctx.drawImage(heroImage, 600, 100)
+        }
+        const hero = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            speed: 5,
+            normalSpeed: 5,
+            boostSpeed: 10,
+            width: 50,
+            height: 50
+        }
+
+        //Lager en funksjon for tilfeldig valgte verdier
+        function randomMinMax(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+
+        const enemy = {
+            x: randomMinMax(50, canvas.width - 100),
+            y: randomMinMax(50, canvas.height - 100),
+            width: 50,
+            height: 50
+        }
+        
+        //Definerer requestAnimationFrame for ulike nettlesere:
+        requestAnimationFrame = window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            window.mozRequestAnimationFrame
+
+        //Lage state-variabler for retning
+        let left = false
+        let right = false
+        let up = false
+        let down = false
+
+        //Sjekk etter tastetrykk
+        document.addEventListener("keydown", function(event) {
+            if(event.key === "a" || event.key === "ArrowLeft") {
+                left = true
+            }
+            if(event.key === "d" || event.key === "ArrowRight") {
+                right = true
+            }
+            if(event.key === "w" || event.key === "ArrowUp") {
+                up = true
+            }
+            if(event.key === "s" || event.key === "ArrowDown") {
+                down = true
+            }
+            if(event.key === "+") {
+                hero.speed = 10
+            }
+        })
+        document.addEventListener("keyup", function(event) {
+            event.key === "a" || event.key === "ArrowLeft" ? left = false : null
+            event.key === "d" || event.key === "ArrowRight" ? right = false : null
+            event.key === "w" || event.key === "ArrowUp" ? up = false : null
+            event.key === "s" || event.key === "ArrowDown" ? down = false : null
+            event.key === "+" ? hero.speed = 5 : null
+        })
+
+        function renderFrames() {
+            //Vi tømmer hele canvaset
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            //Tegne fiendekvadrat
+            ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height)
+
+            //Teste kollisjon mot høyre side
+            if(hero.x + hero.width >= canvas.width) {
+                right = false
+            }
+            //Teste kollisjon mot venstre side
+            if(hero.x <= 0) {
+                left = false
+            }
+            //Sjekke om helten er utenfor bunnen
+            if(hero.y >= canvas.height && down) {
+                console.log("if-test med bunnsjekk er aktiv")
+                hero.y = -hero.height
+                console.log(hero.y)
+            }
+            //Sjekke om helten er utenfor toppen
+            if(hero.y + hero.height <= 0 && up) {
+                hero.y = canvas.height
+            }
+            console.log("x", hero.x, "y", hero.y)
+            //Deaktivere boost når vi nesten når canvas-veggene
+            if(
+                hero.x + hero.width > canvas.width - hero.boostSpeed ||
+                hero.x < hero.boostSpeed
+            ) {
+                hero.speed = hero.normalSpeed
+            }
+
+            //Tegne elementene i en bilderamme
+            ctx.drawImage(heroImage, hero.x, hero.y, hero.width, hero.height)
+            //Sjekk etter retningsforandring
+            if(left === true) {
+                hero.x = hero.x - hero.speed
+            }
+            if(right === true) {
+                hero.x = hero.x + hero.speed
+            }
+            if(up === true) {
+                hero.y = hero.y - hero.speed
+            }
+            if(down === true) {
+                hero.y = hero.y + hero.speed
+            }
+
+            //Sjekk for kollisjon mellom helt og firkant
+            if(
+                hero.x + hero.width > enemy.x &&
+                hero.x < enemy.x + enemy.width &&
+                hero.y + hero.height > enemy.y &&
+                hero.y < enemy.y + enemy.height
+            ) {
+                console.log("Kollisjon")
+                //Flytte enemy: nye x- og y-verdier
+                counter++
+                document.getElementById("count").innerHTML = counter
+                enemy.x = randomMinMax(50, canvas.width - 100)
+                enemy.y = randomMinMax(50, canvas.height - 100)
+            }
+            
+            //Flytte bildet 5 pixler oppover
+            //yCounter = yCounter - 5 //Kan også skrive: yCounter -= 5
+            //Kjøre en ny bilderamme
+            requestAnimationFrame(renderFrames)
+        }
+
+        //Starte animasjon
+        renderFrames()
+
+    </script>
+</body>
+</html>
