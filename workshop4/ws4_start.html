@@ -87,7 +87,7 @@
             player: "Marius",
             energy: 10,
             points: 50,
-            duration: 123,
+            duration: 0,
             gameState: "active" //mulige states: active, paused, gameover, completed
         }
        
@@ -99,7 +99,10 @@
             functions: 3
         }
 
-        
+        //Gjør klar randomMinMax-funksjon
+        function randomMinMax(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) - min)
+        }        
 
         //(BONUS) TODO: function for all prints
         function updateStaticUI() {
@@ -140,9 +143,16 @@
             if(element.classList.contains("hidden") === true) {
                 element.style.display = "block"
                 element.classList.remove("hidden")
+                //WS4: stoppe teller når infoskjermen er oppe
+                if(elementid === "info") {
+                    gameConfig.gameState = "reading"
+                }
             } else {
                 element.style.display = "none"
                 element.classList.add("hidden")
+                if(elementid === "info") {
+                    gameConfig.gameState = "active"
+                }
             }
         }
 
@@ -167,6 +177,37 @@
                 
                 console.log(gameConfig)
             }
+
+            //WS4: 
+            if(event.key === "ArrowLeft") {
+                fortran.moveLeft = true
+            }
+            if(event.key === "ArrowRight") {
+                fortran.moveRight = true
+            }
+            if(event.key === "ArrowDown") {
+                fortran.moveDown = true
+            }
+            if(event.key === "ArrowUp") {
+                fortran.moveUp = true
+            }
+
+        })
+
+        //WS4:
+        document.addEventListener("keyup", function() {
+            if(event.key === "ArrowLeft") {
+                fortran.moveLeft = false
+            }
+            if(event.key === "ArrowRight") {
+                fortran.moveRight = false
+            }
+            if(event.key === "ArrowUp") {
+                fortran.moveUp = false
+            }
+            if(event.key === "ArrowDown") {
+                fortran.moveDown = false
+            }
         })
 
         //WS2, Oppg. 2: Lytte etter klikk på notebook- og info-knappene:
@@ -190,7 +231,13 @@
         const fortran = {
             speed: 3,
             x: canvas.width / 2 - 20,
-            y: canvas.height / 2 - 40
+            y: canvas.height / 2 - 40,
+            moveLeft: false,
+            moveRight: false,
+            moveUp: false,
+            moveDown: false,
+            width: 40,
+            height: 80
         }
 
         const fortranImage = new Image()
@@ -206,8 +253,31 @@
         const randomItem = itemTypes[Math.floor(Math.random() * itemTypes.length)]
         console.log(randomItem)
 
+        //WS4, oppg. 5:
+        const items = [
+            {
+                type: itemTypes[Math.floor(Math.random() * itemTypes.length)],
+                x: randomMinMax(10, canvas.width - 60),
+                y: randomMinMax(10, canvas.height - 60),
+                lifetime: randomMinMax(4, 10)
+            },
+            {
+                type: itemTypes[Math.floor(Math.random() * itemTypes.length)],
+                x: randomMinMax(10, canvas.width - 60),
+                y: randomMinMax(10, canvas.height - 60),
+                lifetime: randomMinMax(4, 10)
+            },
+            {
+                type: itemTypes[Math.floor(Math.random() * itemTypes.length)],
+                x: randomMinMax(10, canvas.width - 60),
+                y: randomMinMax(10, canvas.height - 60),
+                lifetime: randomMinMax(4, 10)
+            }
+        ]
+        console.log(items)
+
         //WS3, Oppg 5: Funksjon for å tegne et element
-        function drawItem(type, x, y) {
+        function drawItem(type, x, y, lifetime) {
             const itemImage = new Image()
             itemImage.src = "icons/" + type + ".svg"
             ctx.drawImage(itemImage, x, y)
@@ -218,10 +288,25 @@
             ctx.fill()
             ctx.font = "12px Verdana"
             ctx.fillStyle = "white"
-            ctx.fillText("5", x+1, y+8)
+            ctx.fillText(lifetime, x+1, y+8)
             ctx.closePath()
         }
 
+        //BONUS: funksjon for out of bounds-straff
+        function outOfBounds() {
+            gameConfig.energy = gameConfig.energy - 1
+            updateSingleStaticUI("energy", gameConfig.energy)
+            fortran.x = canvas.width / 2 - fortran.width / 2
+            fortran.y = canvas.height / 2 - fortran.height / 2
+        }
+
+        //WS4: sekundteller
+        setInterval(function() {
+            if(gameConfig.gameState === "active") {
+                gameConfig.duration = gameConfig.duration + 1
+                updateSingleStaticUI("duration", gameConfig.duration)
+            }
+        }, 1000)
 
         //WS3: Oppg.3: RequestAnimationFrame
         requestAnimationFrame = window.requestAnimationFrame || 
@@ -232,13 +317,16 @@
             //Tømme frame
             ctx.clearRect(0, 0, canvas.width, canvas.height)
             //WS3: Oppg 2: Tegn opp Fortran
-            fortranLoaded ? ctx.drawImage(fortranImage, fortran.x, fortran.y, 40, 80) : null
+            fortranLoaded ? ctx.drawImage(fortranImage, fortran.x, fortran.y, fortran.width, fortran.height) : null
             //WS3, Oppg 5: Tegn opp item
-            drawItem(randomItem, 100, 100)
+            //drawItem(randomItem, 100, 100)
+
+            //WS4:
+            items.map(element => drawItem(element.type, element.x, element.y, element.lifetime))
             //WS3, Oppg 3: Test: sjekker om spillet er pauset:
             if(gameConfig.gameState === "paused") {
                 console.log("Spillet er pauset")
-                psauseText("Press P to unpause")
+                pauseText("Press P to unpause")
                 //Skriv ut PAUSED til Canvas
                 ctx.font = "80px Arial"
                 ctx.fillStyle = "red"
@@ -246,10 +334,44 @@
             } else {
                 console.log("Spillet er i gang")
                 pauseText("Press P to pause")
+
+                if(gameConfig.gameState === "active") {
+                    //WS4:
+                    if(fortran.moveLeft === true) {
+                        fortran.x = fortran.x - fortran.speed
+                        if(fortran.x <= 0 - (fortran.width / 2)) {
+                            outOfBounds()
+                            fortran.moveLeft = false
+                        }
+                    }
+                    if(fortran.moveRight === true) {
+                        fortran.x = fortran.x + fortran.speed
+                        if(fortran.x >= canvas.width - (fortran.width / 2)) {
+                            outOfBounds()
+                            fortran.moveRight = false
+                        }
+                    }
+                    if(fortran.moveUp === true) {
+                        fortran.y = fortran.y - fortran.speed
+                        //BONUS: hvis fortran går utenfor canvas:
+                        if(fortran.y <= 0 - (fortran.height / 2)) {
+                            console.log("Fortran er utenfor toppen")
+                            outOfBounds()
+                            fortran.moveUp = false
+                        }
+                    }
+                    if(fortran.moveDown === true) {
+                        fortran.y = fortran.y + fortran.speed
+                        if(fortran.y >= canvas.height - (fortran.height / 2)) {
+                            outOfBounds()
+                            fortran.moveDown = false
+                        }
+                    }
+                }
             }
             //Kjør renderFrames på ny vha requestAnimationFrame
             requestAnimationFrame(renderFrames)
-        }s
+        }
         renderFrames()
     </script>
 </body>
